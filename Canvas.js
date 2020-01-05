@@ -12,11 +12,20 @@ class Canvas{
         newCanvas.width = this.width;
         document.body.appendChild(newCanvas);
         const ctx = newCanvas.getContext("2d");
-        ctx.beginPath();
-        ctx.lineTo(50,50);
-        ctx.moveTo(30,30);
-        ctx.lineTo(60,60);
-        ctx.stroke();
+
+
+
+        return ctx;
+
+    }
+    clearCanvas(ctx){
+        ctx.clearRect(0,0,2000,1000)
+    }
+    drawBird(){
+        let x = currentBird.getXPos();
+        let y = currentBird.getYPos();
+
+
     }
     getWidth(){
         return this.width;
