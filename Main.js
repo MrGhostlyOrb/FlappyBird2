@@ -41,11 +41,12 @@ document.addEventListener('click', function (event) {
 
         console.log(currentBird.getXPos());
 
+        function move(){
+            console.log("Time")
+        }
+
         while(currentBird.getYPos() < 100){
-            console.log("Moving Bird");
-            currentBird.moveBird(ctx);
-            console.log("Clearing canvas");
-            currentCanvas.clearCanvas(ctx);
+            setTimeout(move,1000);
         }
 
     }
