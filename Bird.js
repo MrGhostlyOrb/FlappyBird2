@@ -4,22 +4,21 @@ class Bird{
         this.y = y;
         this.lives = lives;
     }
-    createBird(ctx){
-
-        this.ctx = ctx;
-
-        console.log("Creating bird here");
+    createBird(){
 
         console.log("Bird attributes are : " + this.x + " xpos " + this.y + " ypos " + this.lives + " lives ")
 
-        ctx.beginPath();
-        ctx.ellipse(this.x,this.y,25,25,0,0,Math.PI * 2,false);
-        ctx.stroke();
-
     }
-    moveBird(ctx){
+    moveBird(){
+
         this.y = this.y + 1;
-        currentBird.createBird(ctx);
+        currentBird.createBird();
+    }
+    moveUp(f){
+        this.y = this.y - f;
+    }
+    moveDown(g){
+        this.y = this.y + g;
     }
     getXPos(){
         return this.x;
