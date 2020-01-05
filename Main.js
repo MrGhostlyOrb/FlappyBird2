@@ -1,7 +1,9 @@
-console.log("Created canvas element");
-const canva = document.createElement("canvas");
-canva.id = "canva";
-const height = canva.height = 500;
-const width = canva.width = 1000;
-document.body.appendChild(canva);
-const ctx = canva.getContext("2d");
+console.log("Going to create canvas");
+
+let currentCanvas = new Canvas(100,200);
+
+currentCanvas.createCanvas();
+
+console.log(currentCanvas.getHeight());
+
+console.log("Created Canvas");
