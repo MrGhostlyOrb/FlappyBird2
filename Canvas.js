@@ -23,6 +23,14 @@ class Canvas{
 
 
     }
+    drawPipe(){
+        let x = currentPipe.getX();
+        let y = currentPipe.getY();
+
+        ctx.beginPath();
+        ctx.rect(x, y, currentPipe.getHeight(), currentPipe.getWidth());
+        ctx.stroke();
+    }
     getWidth(){
         return this.width;
     }
