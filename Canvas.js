@@ -28,6 +28,7 @@ class Canvas{
         let y = currentPipe.getY();
 
         ctx.beginPath();
+        ctx.rect(50,50,50,50);
         ctx.rect(x, y, currentPipe.getHeight(), currentPipe.getWidth());
         ctx.stroke();
     }

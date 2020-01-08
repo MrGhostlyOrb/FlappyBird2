@@ -38,12 +38,12 @@ let currentPipe = new Pipe(newPipeHeight, 30, pipeX, 100, tb);
 
 function newPipe(pipeArray){
 
-    console.log("Pipe time")
+    console.log("Pipe time");
 
     currentCanvas.drawPipe();
 }
 
-setInterval(newPipe, 2000)
+setInterval(newPipe, 2000);
 
 //Get attributes of the current bird object
 console.log("Creating Bird");
@@ -59,7 +59,7 @@ function loop(timestamp) {
     console.log(currentBird.getXPos());
 
     if(currentBird.getYPos() > currentCanvas.height){
-        currentBird.changeXPos(currentCanvas.height - 10);
+        currentBird.changeYPos(currentCanvas.height - 10);
         currentCanvas.drawBird();
         console.log("Below canvas");
     }
