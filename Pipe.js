@@ -18,6 +18,9 @@ class Pipe{
     getY(){
         return this.y;
     }
+    moveLeft(x){
+        this.x = this.x - x;
+    }
     getHeight(){
         return this.height;
     }

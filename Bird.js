@@ -20,6 +20,9 @@ class Bird{
     moveDown(g){
         this.y = this.y + g;
     }
+    moveRight(h){
+        this.x = this.x + h;
+    }
     getXPos(){
         return this.x;
     }

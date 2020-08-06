@@ -11,95 +11,87 @@ const ctx = newCanvas.getContext("2d");
 //Create variable to store number of clicks
 let clicks = 0;
 
-//Create variable g for gravity
-const g = 6;
-const f = 100;
-
 //Create variables for the bird and canvas objects
 let currentCanvas = new Canvas(800,1500, ctx);
-let currentBird = new Bird(5, 5, 5);
+let currentBird = new Bird(50, 300, 5);
+let pipes = [];
 
-let pipeArray = [];
+//Listen for main keydown event to move bird up
+document.addEventListener('keydown', ()=>{
+    currentBird.moveUp(20)
+});
 
-let newPipeHeight = Math.floor(Math.random()*20);
-let tb;
-let pipeX;
+//Create pipes to go across the screen at set intervals
+setInterval(()=>{
+    console.log("Creating Pipe")
+    let randY = Math.floor(Math.random()*1000);
+    let randY2 = Math.floor(Math.random()*1000);
+    console.log(randY);
+    let pipe = new Pipe(100, 10, 1500, randY);
+    let pipe2 = new Pipe(100, 10, 1500, randY2);;
+    pipes.push(pipe);
+    pipes.push(pipe2);
+},10000)
 
-if(Math.random()*10 > 5){
-    tb = true;
-    pipeX = 0;
-}
-else{
-    tb = false;
-    pipeX = currentCanvas.height;
-}
-
-let currentPipe = new Pipe(newPipeHeight, 30, pipeX, 100, tb);
-
-function newPipe(pipeArray){
-
-    console.log("Pipe time")
-
-    currentCanvas.drawPipe();
-}
-
-setInterval(newPipe, 2000)
-
-//Get attributes of the current bird object
-console.log("Creating Bird");
-currentBird.createBird();
-
-
-function loop(timestamp) {
-    var progress = (timestamp - lastRender);
-
+function draw(){
     currentCanvas.clearCanvas();
-    console.log("Cleared canvas");
 
-    console.log(currentBird.getXPos());
+    let x = currentBird.getXPos();
+    let y = currentBird.getYPos();
 
-    if(currentBird.getYPos() > currentCanvas.height){
-        currentBird.changeXPos(currentCanvas.height - 10);
-        currentCanvas.drawBird();
-        console.log("Below canvas");
+    for(let i = 0; i < pipes.length; i++){
+        ctx.beginPath();
+        let pipeX = pipes[i].getX();
+        let pipeY = pipes[i].getY();
+        let pipeW = pipes[i].getWidth();
+        let pipeH = pipes[i].getHeight();
+        ctx.rect(pipeX, pipeY, pipeW, pipeH)
+        ctx.stroke();
+        //drawPipe(pipeX, pipeY);
+        pipes[i].moveLeft(1);
     }
-    else{
-        currentBird.moveDown(g);
-        currentCanvas.drawBird();
-        console.log("Above canvas");
+
+    ctx.beginPath();
+    ctx.rect(20,20,150,100);
+    ctx.stroke();
+
+    console.log(x);
+    console.log(y);
+    console.log(currentCanvas.getHeight());
+
+
+    if(y > currentCanvas.getHeight()){
+        console.log("Game Over");
+        currentBird.changeYPos(currentCanvas.getHeight())
+    }
+    else if(y < 0){
+        console.log("Game Over");
+        currentBird.changeYPos(0);
+    }
+    for(let i = 0; i < pipes.length; i++){
+        console.log("Bird x: " + currentBird.getXPos());
+        console.log("Pipe x: " + pipes[i].getX());
+        console.log("Bird y: " + currentBird.getYPos());
+        console.log("Pipe y: " + pipes[i].getY());
+        if(currentBird.getXPos() <= pipes[i].getX() + pipes[i].getWidth() && currentBird.getXPos() >= pipes[i].getX() && currentBird.getYPos() >= pipes[i].getY() && currentBird.getYPos() <= pipes[i].getY() + pipes[i].getHeight()){
+            console.log("Game Over Collision");
+            let p = document.createElement('p');
+            p.innerHTML = "Game Over";
+            p.style.color = "red";ll
+            document.body.append(p);
+        }
+        if(pipes[i].getX() < 0){
+            pipes.splice(i, 1);
+        }
+        console.log("Length : " + pipes.length);
     }
 
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI, false);
+    ctx.stroke();
 
+    currentBird.moveDown(1);
 
-    lastRender = timestamp;
-    window.requestAnimationFrame(loop);
+    window.requestAnimationFrame(draw)
 }
-
-//Frame stuff
-var lastRender = 0;
-window.requestAnimationFrame(loop);
-
-//Draw the bird on the canvas
-currentCanvas.drawBird();
-
-//Add event listener to listen for clicks
-document.addEventListener('click', function (event) {
-
-    // If the clicked element doesn't have the right selector, bail
-    if (!event.target.matches('canvas')) return;
-
-    // Don't follow the link
-    event.preventDefault();
-
-    // Log the clicked element in the console
-    console.log(event.target);
-    console.log("Clicked the canvas");
-
-    //Add 1 to clicks once canvas has been clicked
-    clicks = clicks + 1;
-
-    currentBird.moveUp(f);
-
-
-
-}, false);
+draw();
